@@ -11,8 +11,8 @@ import { Course } from "./Course.js";
 
 @Entity("lessons")
 export class Lesson {
-  @PrimaryGeneratedColumn("uuid")
-  id!: string;
+  @PrimaryGeneratedColumn()
+  id!: number;
 
   // 📚 Relation: Lesson belongs to one Course
   @ManyToOne(() => Course, (course) => course.lessons, {

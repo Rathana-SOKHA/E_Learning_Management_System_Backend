@@ -13,8 +13,8 @@ import { Course } from "./Course.js";
 
 @Entity("users")
 export class User {
-  @PrimaryGeneratedColumn("uuid")
-  id!: string;
+  @PrimaryGeneratedColumn()
+  id!: number;
 
   @Column({
     type: "varchar",
@@ -33,29 +33,20 @@ export class User {
   })
   password!: string;
 
-  // 🔐 Role relation
   @ManyToOne(() => Role)
   @JoinColumn({
     name: "role_id",
   })
   role!: Role;
 
-  // 👨‍🏫 Teacher -> Courses
+  // 👨‍🏫 Teacher courses
   @OneToMany(() => Course, (course) => course.teacher)
   courses!: Course[];
 
-  // 👨‍🎓 Student -> Enrollments
+  // 👨‍🎓 Student enrollments
   @OneToMany(
     () => Enrollment,
     (enrollment) => enrollment.user
   )
   enrollments!: Enrollment[];
 }
-
-
-// refresh token
-// @Column({
-//   type: "text",
-//   nullable: true,
-// })
-// refresh_token!: string;

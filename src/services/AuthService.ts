@@ -63,7 +63,11 @@ export class AuthService {
       throw new Error("Invalid credentials");
     }
 
-    const permissions = user.role.rolePermissions.map(rp => rp.permission.name);
+    if (!user.role) {
+      throw new Error("Invalid credentials");
+    }
+
+    const permissions = (user.role.rolePermissions || []).map(rp => rp.permission?.name).filter(Boolean);
     const token = generateToken({
       id: user.id,
       role: user.role.name,
