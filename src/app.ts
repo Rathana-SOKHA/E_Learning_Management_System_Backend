@@ -1,15 +1,14 @@
+import express from "express";
+// import cors from "cors";
 
+import authRoutes from "./routes/authRoutes.js";
 
-import express, {type Express } from "express";
-import { type Response, type Request } from "express";
+const app = express();
 
-
-const app: Express = express();
+// app.use(cors());
 
 app.use(express.json());
 
-app.get("/api", (req: Request, res: Response) => {
-    res.json({message: "Hello, world..."});
-})
+app.use("/api/auth", authRoutes);
 
 export default app;

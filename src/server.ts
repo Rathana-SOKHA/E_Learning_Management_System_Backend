@@ -1,8 +1,18 @@
+import "reflect-metadata";
+
 import app from "./app.js";
+import { AppDataSource } from "./config/data-source.js";
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 
-app.listen(PORT, () => {
-  console.log(`http://localhost:${PORT}`);
-})
+AppDataSource.initialize()
+  .then(() => {
+    console.log("Database connected");
 
+    app.listen(3000, () => {
+      console.log(`http://localhost:${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
