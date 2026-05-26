@@ -9,7 +9,7 @@ AppDataSource.initialize()
   .then(() => {
     console.log("Database connected");
 
-    app.listen(3000, () => {
+    app.listen(PORT, () => {
       console.log(`http://localhost:${PORT}`);
     });
   })
