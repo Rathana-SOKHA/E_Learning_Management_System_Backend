@@ -14,6 +14,7 @@ const permissionsList = [
   "create_quiz",
   "take_quiz",
   "manage_users",
+  "enroll_course",
 ];
 
 const roles = [
@@ -30,11 +31,12 @@ const roles = [
       "create_lesson",
       "edit_lesson",
       "create_quiz",
+      "enroll_course"
     ],
   },
   {
     name: "STUDENT",
-    permissions: ["view_course", "take_quiz"],
+    permissions: ["enroll_course", "view_course", "take_quiz"],
   },
 ];
 
@@ -47,20 +49,22 @@ export const seed = async () => {
 
   console.log("🌱 Seeder started");
 
-  // 1. CREATE PERMISSIONS FIRST
-  const permissionMap: Record<string, Permission> = {};
+   // 1. CREATE PERMISSIONS FIRST
+   const permissionMap: Record<string, Permission> = {};
 
-  for (const name of permissionsList) {
-    let perm = await permRepo.findOne({ where: { name } });
+   for (const name of permissionsList) {
+     let perm = await permRepo.findOne({ where: { name } });
 
-    if (!perm) {
-      perm = await permRepo.save(
-        permRepo.create({ name })
-      );
-    }
+     if (!perm) {
+       perm = await permRepo.save(
+         permRepo.create({ name })
+       );
+     }
 
-    permissionMap[name] = perm;
-  }
+     permissionMap[name] = perm;
+   }
+
+   console.log("Permission map keys:", Object.keys(permissionMap));
 
   // 2. CREATE ROLES
   for (const roleData of roles) {

@@ -4,9 +4,12 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from "typeorm";
 
 import { Role } from "./Role.js";
+import { Enrollment } from "./Enrollment.js";
+import { Course } from "./Course.js";
 
 @Entity("users")
 export class User {
@@ -30,11 +33,23 @@ export class User {
   })
   password!: string;
 
+  // 🔐 Role relation
   @ManyToOne(() => Role)
   @JoinColumn({
     name: "role_id",
   })
   role!: Role;
+
+  // 👨‍🏫 Teacher -> Courses
+  @OneToMany(() => Course, (course) => course.teacher)
+  courses!: Course[];
+
+  // 👨‍🎓 Student -> Enrollments
+  @OneToMany(
+    () => Enrollment,
+    (enrollment) => enrollment.user
+  )
+  enrollments!: Enrollment[];
 }
 
 

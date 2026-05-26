@@ -5,6 +5,9 @@ import { User } from "../entities/User.js";
 import { Role } from "../entities/Role.js";
 import { Permission } from "../entities/Permission.js";
 import { RolePermission } from "../entities/RolePermission.js";
+import { Course } from "../entities/Course.js";
+import { Lesson } from "../entities/Lesson.js";
+import { Enrollment } from "../entities/Enrollment.js";
 
 export const AppDataSource = new DataSource({
   type: "mysql",
@@ -18,5 +21,5 @@ export const AppDataSource = new DataSource({
   synchronize: true,
   logging: false,
 
-  entities: [User, Role, Permission, RolePermission],
+  entities: [User, Role, Permission, RolePermission, Course, Lesson, Enrollment],
 });
