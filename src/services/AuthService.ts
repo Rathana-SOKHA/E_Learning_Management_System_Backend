@@ -75,4 +75,24 @@ export class AuthService {
       user,
     };
   }
+  async logout() {
+    return {
+      message: "Logged out successfully",
+    };
+  }
+  async getProfile(userId: number | string) {
+  try {
+      const user = await this.userRepository.findById(userId);   // ← must exist
+
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      const { password, ...userProfile } = user;
+      return userProfile;
+    } catch (error: any) {
+      console.error("GetProfile Error:", error);
+      throw error;
+    }
+  }
 }

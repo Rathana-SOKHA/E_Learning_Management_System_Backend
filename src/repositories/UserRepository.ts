@@ -27,4 +27,29 @@ export class UserRepository {
 
     return this.repository.save(user);
   }
+
+  async findById(id: number | string) {
+    try {
+      // Copy the same style as your `findByEmail` method
+      // Example (adjust according to your repository pattern):
+
+      return await this.repository.findOne({
+        where: { id: String(id) },
+        relations: {
+          role: {
+            rolePermissions: {
+              permission: true,
+            },
+          },
+        },
+      });
+
+      // OR if you use query builder or raw query, use similar pattern as findByEmail
+
+    } catch (error) {
+      console.error("FindById Error:", error);
+      return null;
+    }
+  }
 }
+
