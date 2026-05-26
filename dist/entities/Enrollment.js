@@ -7,32 +7,34 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, CreateDateColumn, } from "typeorm";
 import { User } from "./User.js";
-import { RolePermission } from "./RolePermission.js";
-let Role = class Role {
+import { Course } from "./Course.js";
+let Enrollment = class Enrollment {
 };
 __decorate([
     PrimaryGeneratedColumn("uuid"),
     __metadata("design:type", String)
-], Role.prototype, "id", void 0);
+], Enrollment.prototype, "id", void 0);
 __decorate([
-    Column({
-        type: "varchar",
-        length: 50,
-        unique: true,
+    ManyToOne(() => User, (user) => user.enrollments, {
+        onDelete: "CASCADE",
     }),
-    __metadata("design:type", String)
-], Role.prototype, "name", void 0);
+    JoinColumn({ name: "user_id" }),
+    __metadata("design:type", User)
+], Enrollment.prototype, "user", void 0);
 __decorate([
-    OneToMany(() => User, (user) => user.role),
-    __metadata("design:type", Object)
-], Role.prototype, "users", void 0);
+    ManyToOne(() => Course, (course) => course.enrollments, {
+        onDelete: "CASCADE",
+    }),
+    JoinColumn({ name: "course_id" }),
+    __metadata("design:type", Course)
+], Enrollment.prototype, "course", void 0);
 __decorate([
-    OneToMany(() => RolePermission, (rp) => rp.role),
-    __metadata("design:type", Object)
-], Role.prototype, "rolePermissions", void 0);
-Role = __decorate([
-    Entity("roles")
-], Role);
-export { Role };
+    CreateDateColumn(),
+    __metadata("design:type", Date)
+], Enrollment.prototype, "enrolled_at", void 0);
+Enrollment = __decorate([
+    Entity("enrollments")
+], Enrollment);
+export { Enrollment };

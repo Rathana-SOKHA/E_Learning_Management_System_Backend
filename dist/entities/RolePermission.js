@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, } from "typeorm";
 import { Role } from "./Role.js";
 import { Permission } from "./Permission.js";
 let RolePermission = class RolePermission {
@@ -17,12 +17,22 @@ __decorate([
     __metadata("design:type", String)
 ], RolePermission.prototype, "id", void 0);
 __decorate([
-    ManyToOne(() => Role, role => role.rolePermissions),
-    __metadata("design:type", Role)
+    ManyToOne(() => Role, (role) => role.rolePermissions, {
+        onDelete: "CASCADE",
+    }),
+    JoinColumn({
+        name: "role_id",
+    }),
+    __metadata("design:type", Object)
 ], RolePermission.prototype, "role", void 0);
 __decorate([
-    ManyToOne(() => Permission, p => p.rolePermissions),
-    __metadata("design:type", Permission)
+    ManyToOne(() => Permission, (permission) => permission.rolePermissions, {
+        onDelete: "CASCADE",
+    }),
+    JoinColumn({
+        name: "permission_id",
+    }),
+    __metadata("design:type", Object)
 ], RolePermission.prototype, "permission", void 0);
 RolePermission = __decorate([
     Entity("role_permissions")

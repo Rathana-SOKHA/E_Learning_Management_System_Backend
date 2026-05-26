@@ -9,6 +9,7 @@ export const comparePassword = async (
   hashed: string
 ) => {
   return bcrypt.compare(password, hashed);
+
 };
 
 

@@ -7,58 +7,44 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany, } from "typeorm";
-import { Role } from "./Role.js";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, OneToMany, } from "typeorm";
+import { User } from "./User.js";
+import { Lesson } from "./Lesson.js";
 import { Enrollment } from "./Enrollment.js";
-import { Course } from "./Course.js";
-let User = class User {
+let Course = class Course {
 };
 __decorate([
     PrimaryGeneratedColumn("uuid"),
     __metadata("design:type", String)
-], User.prototype, "id", void 0);
+], Course.prototype, "id", void 0);
 __decorate([
-    Column({
-        type: "varchar",
-        length: 100,
-    }),
+    Column({ type: "varchar", length: 50 }),
     __metadata("design:type", String)
-], User.prototype, "full_name", void 0);
+], Course.prototype, "title", void 0);
 __decorate([
-    Column({
-        type: "varchar",
-        unique: true,
-    }),
+    Column({ type: "text", nullable: true }),
     __metadata("design:type", String)
-], User.prototype, "email", void 0);
+], Course.prototype, "description", void 0);
 __decorate([
-    Column({
-        type: "varchar",
+    ManyToOne(() => User, (user) => user.courses, {
+        onDelete: "CASCADE",
     }),
-    __metadata("design:type", String)
-], User.prototype, "password", void 0);
+    JoinColumn({ name: "teacher_id" }),
+    __metadata("design:type", User)
+], Course.prototype, "teacher", void 0);
 __decorate([
-    ManyToOne(() => Role),
-    JoinColumn({
-        name: "role_id",
-    }),
-    __metadata("design:type", Role)
-], User.prototype, "role", void 0);
+    CreateDateColumn(),
+    __metadata("design:type", Date)
+], Course.prototype, "created_at", void 0);
 __decorate([
-    OneToMany(() => Course, (course) => course.teacher),
+    OneToMany(() => Lesson, (lesson) => lesson.course),
     __metadata("design:type", Array)
-], User.prototype, "courses", void 0);
+], Course.prototype, "lessons", void 0);
 __decorate([
-    OneToMany(() => Enrollment, (enrollment) => enrollment.user),
+    OneToMany(() => Enrollment, (enrollment) => enrollment.course),
     __metadata("design:type", Array)
-], User.prototype, "enrollments", void 0);
-User = __decorate([
-    Entity("users")
-], User);
-export { User };
-// refresh token
-// @Column({
-//   type: "text",
-//   nullable: true,
-// })
-// refresh_token!: string;
+], Course.prototype, "enrollments", void 0);
+Course = __decorate([
+    Entity("courses")
+], Course);
+export { Course };

@@ -12,6 +12,7 @@ const permissionsList = [
     "create_quiz",
     "take_quiz",
     "manage_users",
+    "enroll_course",
 ];
 const roles = [
     {
@@ -27,11 +28,12 @@ const roles = [
             "create_lesson",
             "edit_lesson",
             "create_quiz",
+            "enroll_course"
         ],
     },
     {
         name: "STUDENT",
-        permissions: ["view_course", "take_quiz"],
+        permissions: ["enroll_course", "view_course", "take_quiz"],
     },
 ];
 export const seed = async () => {
@@ -49,6 +51,7 @@ export const seed = async () => {
         }
         permissionMap[name] = perm;
     }
+    console.log("Permission map keys:", Object.keys(permissionMap));
     // 2. CREATE ROLES
     for (const roleData of roles) {
         let role = await roleRepo.findOne({

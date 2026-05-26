@@ -3,6 +3,7 @@ import {
   PrimaryGeneratedColumn,
   Column,
   OneToMany,
+  Relation,
 } from "typeorm";
 
 import { User } from "./User.js";
@@ -20,11 +21,14 @@ export class Role {
   })
   name!: string;
 
-  // ✅ EXISTING (KEEP THIS)
+  // 👤 Role -> Users
   @OneToMany(() => User, (user) => user.role)
-  users!: User[];
+  users!: Relation<User[]>;
 
-  // ✅ NEW (RBAC SYSTEM)
-  @OneToMany(() => RolePermission, (rp) => rp.role)
-  rolePermissions!: RolePermission[];
+  // 🔐 Role -> RolePermissions
+  @OneToMany(
+    () => RolePermission,
+    (rp) => rp.role
+  )
+  rolePermissions!: Relation<RolePermission[]>;
 }

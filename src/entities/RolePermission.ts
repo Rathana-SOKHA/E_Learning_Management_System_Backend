@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+  Relation,
+} from "typeorm";
 
 import { Role } from "./Role.js";
 import { Permission } from "./Permission.js";
@@ -8,9 +14,25 @@ export class RolePermission {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  @ManyToOne(() => Role, role => role.rolePermissions)
-  role!: Role;
+  // 🔐 Role relationship
+  @ManyToOne(() => Role, (role) => role.rolePermissions, {
+    onDelete: "CASCADE",
+  })
+  @JoinColumn({
+    name: "role_id",
+  })
+  role!: Relation<Role>;
 
-  @ManyToOne(() => Permission, p => p.rolePermissions)
-  permission!: Permission;
+  // 🔐 Permission relationship
+  @ManyToOne(
+    () => Permission,
+    (permission) => permission.rolePermissions,
+    {
+      onDelete: "CASCADE",
+    }
+  )
+  @JoinColumn({
+    name: "permission_id",
+  })
+  permission!: Relation<Permission>;
 }
