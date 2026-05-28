@@ -14,8 +14,8 @@ import { Enrollment } from "./Enrollment.js";
 
 @Entity("courses")
 export class Course {
-  @PrimaryGeneratedColumn("uuid")
-  id!: string;
+  @PrimaryGeneratedColumn()
+  id!: number;
 
   @Column({ type: "varchar", length: 50 })
   title!: string;

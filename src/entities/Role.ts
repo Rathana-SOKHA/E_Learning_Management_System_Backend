@@ -11,8 +11,8 @@ import { RolePermission } from "./RolePermission.js";
 
 @Entity("roles")
 export class Role {
-  @PrimaryGeneratedColumn("uuid")
-  id!: string;
+  @PrimaryGeneratedColumn()
+  id!: number;
 
   @Column({
     type: "varchar",

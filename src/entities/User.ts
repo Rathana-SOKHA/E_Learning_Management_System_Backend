@@ -13,8 +13,8 @@ import { Course } from "./Course.js";
 
 @Entity("users")
 export class User {
-  @PrimaryGeneratedColumn("uuid")
-  id!: string;
+  @PrimaryGeneratedColumn()
+  id!: number;
 
   @Column({
     type: "varchar",

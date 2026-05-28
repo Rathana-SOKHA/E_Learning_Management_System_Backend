@@ -11,8 +11,8 @@ import { Course } from "./Course.js";
 
 @Entity("enrollments")
 export class Enrollment {
-  @PrimaryGeneratedColumn("uuid")
-  id!: string;
+  @PrimaryGeneratedColumn()
+  id!: number;
 
   // 👨‍🎓 Student
   @ManyToOne(() => User, (user) => user.enrollments, {

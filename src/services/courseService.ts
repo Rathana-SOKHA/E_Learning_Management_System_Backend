@@ -1,31 +1,33 @@
 import { CourseRepository } from "../repositories/CourseRepository.js";
-import { User } from "../entities/User.js";
+import { UserRepository } from "../repositories/UserRepository.js";
 
 export class CourseService {
-  static async createCourse(
+  private courseRepo = new CourseRepository();
+  private userRepo = new UserRepository();
+
+  async createCourse(
+    teacherId: number,
     title: string,
-    description: string,
-    teacher: User
+    description: string
   ) {
-    const course = CourseRepository.create({
+    const teacher = await this.userRepo.findById(teacherId);
+
+    if (!teacher) {
+      throw new Error("Teacher not found");
+    }
+
+    return this.courseRepo.createCourse({
       title,
       description,
       teacher,
     });
-
-    return await CourseRepository.save(course);
   }
 
-  static async getAllCourses() {
-    return await CourseRepository.find({
-      relations: ["teacher"],
-    });
+  async getAllCourses() {
+    return this.courseRepo.findAll();
   }
 
-  static async getCourseById(id: string) {
-    return await CourseRepository.findOne({
-      where: { id },
-      relations: ["teacher", "lessons", "enrollments"],
-    });
+  async getCourseById(id: number) {
+    return this.courseRepo.findById(id);
   }
 }

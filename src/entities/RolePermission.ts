@@ -11,8 +11,8 @@ import { Permission } from "./Permission.js";
 
 @Entity("role_permissions")
 export class RolePermission {
-  @PrimaryGeneratedColumn("uuid")
-  id!: string;
+  @PrimaryGeneratedColumn()
+  id!: number;
 
   // 🔐 Role relationship
   @ManyToOne(() => Role, (role) => role.rolePermissions, {

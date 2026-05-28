@@ -16,15 +16,15 @@ router.get(
   }
 );
 
-router.post(
-  "/create-course",
-  authMiddleware,
-  authorizePermissions("create_course"),
-  (req, res) => {
-    res.json({
-      message: "Course created",
-    });
-  }
-);
+// router.post(
+//   "/create-course",
+//   authMiddleware,
+//   authorizePermissions("create_course"),
+//   (req, res) => {
+//     res.json({
+//       message: "Course created",
+//     });
+//   }
+// );
 
 export default router;
