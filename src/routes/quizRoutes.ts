@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { CourseController } from "../controllers/CourseController.js";
+import { QuizController } from "../controllers/QuizController.js";
 
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 
@@ -9,42 +9,42 @@ import { authorizeRoles } from "../middlewares/roleMiddleware.js";
 const router = Router();
 
 const controller =
-  new CourseController();
+  new QuizController();
 
-// CREATE COURSE
+// CREATE QUIZ
 router.post(
   "/",
   authMiddleware,
   authorizeRoles("TEACHER"),
-  controller.createCourse
+  controller.createQuiz
 );
 
-// GET ALL COURSES
+// GET ALL QUIZZES
 router.get(
   "/",
-  controller.getCourses
+  controller.getQuizzes
 );
 
-// GET ONE COURSE
+// GET ONE QUIZ
 router.get(
   "/:id",
-  controller.getCourseById
+  controller.getQuizById
 );
 
-// UPDATE COURSE
+// UPDATE QUIZ
 router.put(
   "/:id",
   authMiddleware,
   authorizeRoles("TEACHER"),
-  controller.updateCourse
+  controller.updateQuiz
 );
 
-// DELETE COURSE
+// DELETE QUIZ
 router.delete(
   "/:id",
   authMiddleware,
   authorizeRoles("TEACHER"),
-  controller.deleteCourse
+  controller.deleteQuiz
 );
 
 export default router;

@@ -1,25 +1,25 @@
 import { AppDataSource } from "../config/data-source.js";
-import { Course } from "../entities/Course.js";
+import { Question } from "../entities/Question.js";
 
-export class CourseRepository {
+export class QuestionRepository {
   private repository =
-    AppDataSource.getRepository(Course);
+    AppDataSource.getRepository(Question);
 
   // CREATE
-  async createCourse(data: Partial<Course>) {
-    const course =
+  async createQuestion(
+    data: Partial<Question>
+  ) {
+    const question =
       this.repository.create(data);
 
-    return this.repository.save(course);
+    return this.repository.save(question);
   }
 
   // GET ALL
   async findAll() {
     return this.repository.find({
       relations: {
-        teacher: true,
-        lessons: true,
-        quizzes: true,
+        quiz: true,
       },
     });
   }
@@ -29,17 +29,15 @@ export class CourseRepository {
     return this.repository.findOne({
       where: { id },
       relations: {
-        teacher: true,
-        lessons: true,
-        quizzes: true,
+        quiz: true,
       },
     });
   }
 
   // UPDATE
-  async updateCourse(
+  async updateQuestion(
     id: number,
-    data: Partial<Course>
+    data: Partial<Question>
   ) {
     await this.repository.update(id, data);
 
@@ -47,7 +45,7 @@ export class CourseRepository {
   }
 
   // DELETE
-  async deleteCourse(id: number) {
+  async deleteQuestion(id: number) {
     return this.repository.delete(id);
   }
 }

@@ -1,34 +1,42 @@
 import { Request, Response } from "express";
 
-import { CourseService } from "../services/courseService.js";
+import { QuestionService } from "../services/QuestionService.js";
 
-export class CourseController {
-  private courseService =
-    new CourseService();
+export class QuestionController {
+  private questionService =
+    new QuestionService();
 
   // CREATE
-  createCourse = async (
+  createQuestion = async (
     req: Request,
     res: Response
   ) => {
     try {
       const {
-        teacherId,
-        title,
-        description,
+        quizId,
+        question_text,
+        option_a,
+        option_b,
+        option_c,
+        option_d,
+        correct_answer,
       } = req.body;
 
-      const course =
-        await this.courseService.createCourse(
-          Number(teacherId),
-          title,
-          description
+      const question =
+        await this.questionService.createQuestion(
+          Number(quizId),
+          question_text,
+          option_a,
+          option_b,
+          option_c,
+          option_d,
+          correct_answer
         );
 
       return res.status(201).json({
         message:
-          "Course created successfully",
-        course,
+          "Question created successfully",
+        question,
       });
     } catch (error: any) {
       return res.status(500).json({
@@ -38,16 +46,16 @@ export class CourseController {
   };
 
   // GET ALL
-  getCourses = async (
+  getQuestions = async (
     req: Request,
     res: Response
   ) => {
     try {
-      const courses =
-        await this.courseService.getAllCourses();
+      const questions =
+        await this.questionService.getQuestions();
 
       return res.status(200).json({
-        data: courses,
+        data: questions,
       });
     } catch (error: any) {
       return res.status(500).json({
@@ -57,18 +65,18 @@ export class CourseController {
   };
 
   // GET ONE
-  getCourseById = async (
+  getQuestionById = async (
     req: Request,
     res: Response
   ) => {
     try {
       const id = Number(req.params.id);
 
-      const course =
-        await this.courseService.getCourseById(id);
+      const question =
+        await this.questionService.getQuestionById(id);
 
       return res.status(200).json({
-        data: course,
+        data: question,
       });
     } catch (error: any) {
       return res.status(404).json({
@@ -78,7 +86,7 @@ export class CourseController {
   };
 
   // UPDATE
-  updateCourse = async (
+  updateQuestion = async (
     req: Request,
     res: Response
   ) => {
@@ -86,21 +94,29 @@ export class CourseController {
       const id = Number(req.params.id);
 
       const {
-        title,
-        description,
+        question_text,
+        option_a,
+        option_b,
+        option_c,
+        option_d,
+        correct_answer,
       } = req.body;
 
-      const course =
-        await this.courseService.updateCourse(
+      const question =
+        await this.questionService.updateQuestion(
           id,
-          title,
-          description
+          question_text,
+          option_a,
+          option_b,
+          option_c,
+          option_d,
+          correct_answer
         );
 
       return res.status(200).json({
         message:
-          "Course updated successfully",
-        course,
+          "Question updated successfully",
+        question,
       });
     } catch (error: any) {
       return res.status(500).json({
@@ -110,7 +126,7 @@ export class CourseController {
   };
 
   // DELETE
-  deleteCourse = async (
+  deleteQuestion = async (
     req: Request,
     res: Response
   ) => {
@@ -118,7 +134,7 @@ export class CourseController {
       const id = Number(req.params.id);
 
       const result =
-        await this.courseService.deleteCourse(id);
+        await this.questionService.deleteQuestion(id);
 
       return res.status(200).json(result);
     } catch (error: any) {

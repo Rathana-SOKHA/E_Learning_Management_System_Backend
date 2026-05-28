@@ -1,34 +1,36 @@
 import { Request, Response } from "express";
 
-import { CourseService } from "../services/courseService.js";
+import { LessonService } from "../services/LessonService.js";
 
-export class CourseController {
-  private courseService =
-    new CourseService();
+export class LessonController {
+  private lessonService =
+    new LessonService();
 
   // CREATE
-  createCourse = async (
+  createLesson = async (
     req: Request,
     res: Response
   ) => {
     try {
       const {
-        teacherId,
+        courseId,
         title,
-        description,
+        content,
+        video_url,
       } = req.body;
 
-      const course =
-        await this.courseService.createCourse(
-          Number(teacherId),
+      const lesson =
+        await this.lessonService.createLesson(
+          Number(courseId),
           title,
-          description
+          content,
+          video_url
         );
 
       return res.status(201).json({
         message:
-          "Course created successfully",
-        course,
+          "Lesson created successfully",
+        lesson,
       });
     } catch (error: any) {
       return res.status(500).json({
@@ -38,16 +40,16 @@ export class CourseController {
   };
 
   // GET ALL
-  getCourses = async (
+  getLessons = async (
     req: Request,
     res: Response
   ) => {
     try {
-      const courses =
-        await this.courseService.getAllCourses();
+      const lessons =
+        await this.lessonService.getLessons();
 
       return res.status(200).json({
-        data: courses,
+        data: lessons,
       });
     } catch (error: any) {
       return res.status(500).json({
@@ -57,18 +59,18 @@ export class CourseController {
   };
 
   // GET ONE
-  getCourseById = async (
+  getLessonById = async (
     req: Request,
     res: Response
   ) => {
     try {
       const id = Number(req.params.id);
 
-      const course =
-        await this.courseService.getCourseById(id);
+      const lesson =
+        await this.lessonService.getLessonById(id);
 
       return res.status(200).json({
-        data: course,
+        data: lesson,
       });
     } catch (error: any) {
       return res.status(404).json({
@@ -78,7 +80,7 @@ export class CourseController {
   };
 
   // UPDATE
-  updateCourse = async (
+  updateLesson = async (
     req: Request,
     res: Response
   ) => {
@@ -87,20 +89,22 @@ export class CourseController {
 
       const {
         title,
-        description,
+        content,
+        video_url,
       } = req.body;
 
-      const course =
-        await this.courseService.updateCourse(
+      const lesson =
+        await this.lessonService.updateLesson(
           id,
           title,
-          description
+          content,
+          video_url
         );
 
       return res.status(200).json({
         message:
-          "Course updated successfully",
-        course,
+          "Lesson updated successfully",
+        lesson,
       });
     } catch (error: any) {
       return res.status(500).json({
@@ -110,7 +114,7 @@ export class CourseController {
   };
 
   // DELETE
-  deleteCourse = async (
+  deleteLesson = async (
     req: Request,
     res: Response
   ) => {
@@ -118,7 +122,7 @@ export class CourseController {
       const id = Number(req.params.id);
 
       const result =
-        await this.courseService.deleteCourse(id);
+        await this.lessonService.deleteLesson(id);
 
       return res.status(200).json(result);
     } catch (error: any) {
