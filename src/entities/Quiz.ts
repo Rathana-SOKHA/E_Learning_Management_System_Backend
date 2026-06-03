@@ -10,6 +10,7 @@ import {
 
 import { Course } from "./Course.js";
 import { Question } from "./Question.js";
+import { QuizResult } from "./QuizResult.js";
 
 @Entity("quizzes")
 export class Quiz {
@@ -53,6 +54,13 @@ export class Quiz {
     (question) => question.quiz
   )
   questions!: Question[];
+
+  // Quiz has many Results
+  @OneToMany(
+    () => QuizResult,
+    (result) => result.quiz
+  )
+  results!: QuizResult[];
 
   @CreateDateColumn()
   created_at!: Date;

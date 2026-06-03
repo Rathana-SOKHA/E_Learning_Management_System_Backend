@@ -11,6 +11,7 @@ import { Role } from "./Role.js";
 import { Enrollment } from "./Enrollment.js";
 import { Course } from "./Course.js";
 import { Progress } from "./Progress.js";
+import { QuizResult } from "./QuizResult.js";
 
 @Entity("users")
 export class User {
@@ -61,4 +62,11 @@ export class User {
     (progress) => progress.user
   )
   progresses!: Progress[];
+
+  // 📝 Student → Quiz Results
+  @OneToMany(
+    () => QuizResult,
+    (result) => result.user
+  )
+  quizResults!: QuizResult[];
 }
