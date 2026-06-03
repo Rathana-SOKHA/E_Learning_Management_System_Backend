@@ -6,12 +6,11 @@ import adminRoutes from "./routes/adminRoutes.js";
 import studentRoutes from "./routes/studentRoutes.js";
 import teacherRoute from "./routes/teacherRoutes.js";
 import courseRoutes from "./routes/courseRoutes.js";
-import enrollmentRoutes from "./routes/enrollmentRoute.js"
+import enrollmentRoutes from "./routes/enrollmentRoute.js";
 import lessonRoutes from "./routes/lessonRoutes.js";
 import quizRoutes from "./routes/quizRoutes.js";
 import questionRoutes from "./routes/questionRoutes.js";
-
-
+import progressRoutes from "./routes/progressRoutes.js";
 
 const app = express();
 
@@ -28,5 +27,6 @@ app.use("/api/enrollments", enrollmentRoutes);
 app.use("/api/lessons", lessonRoutes);
 app.use("/api/quizzes", quizRoutes);
 app.use("/api/questions", questionRoutes);
+app.use("/api/progress", progressRoutes);
 
 export default app;

@@ -10,6 +10,7 @@ import {
 import { Role } from "./Role.js";
 import { Enrollment } from "./Enrollment.js";
 import { Course } from "./Course.js";
+import { Progress } from "./Progress.js";
 
 @Entity("users")
 export class User {
@@ -33,29 +34,31 @@ export class User {
   })
   password!: string;
 
-  // 🔐 Role relation
+  // 🔐 Role
   @ManyToOne(() => Role)
   @JoinColumn({
     name: "role_id",
   })
   role!: Role;
 
-  // 👨‍🏫 Teacher -> Courses
-  @OneToMany(() => Course, (course) => course.teacher)
+  // 👨‍🏫 Teacher → Courses
+  @OneToMany(
+    () => Course,
+    (course) => course.teacher
+  )
   courses!: Course[];
 
-  // 👨‍🎓 Student -> Enrollments
+  // 👨‍🎓 Student → Enrollments
   @OneToMany(
     () => Enrollment,
     (enrollment) => enrollment.user
   )
   enrollments!: Enrollment[];
+
+  // 📈 Student → Progress
+  @OneToMany(
+    () => Progress,
+    (progress) => progress.user
+  )
+  progresses!: Progress[];
 }
-
-
-// refresh token
-// @Column({
-//   type: "text",
-//   nullable: true,
-// })
-// refresh_token!: string;
