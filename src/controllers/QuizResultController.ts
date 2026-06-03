@@ -1,42 +1,32 @@
 import { Request, Response } from "express";
 import { QuizResultService } from "../services/QuizResultService.js";
+import { ApiResponse } from "../utils/apiResponse.js";
 
 export class QuizResultController {
-  private resultService =
-    new QuizResultService();
+  private resultService = new QuizResultService();
 
-  submitQuiz = async (
-    req: any,
-    res: Response
-  ) => {
+  submitQuiz = async (req: Request, res: Response) => {
     try {
-      const { quizId, score } =
-        req.body;
+      const { quizId, score } = req.body;
 
-      const result =
-        await this.resultService.submitQuiz(
-          req.user.id,
-          Number(quizId),
-          Number(score)
-        );
+      const result = await this.resultService.submitQuiz(
+        req.user!.id,
+        Number(quizId),
+        Number(score),
+      );
 
-      return res.status(201).json(result);
-    } catch (error: any) {
-      return res.status(500).json({
-        message: error.message,
-      });
+      return ApiResponse.success(res, 201, "Quiz submitted", result);
+    } catch (error) {
+      if (error instanceof Error) {
+        return ApiResponse.error(res, 500, error.message);
+      }
+      return ApiResponse.error(res, 500, "Internal server error");
     }
   };
 
-  getMyResults = async (
-    req: any,
-    res: Response
-  ) => {
-    const results =
-      await this.resultService.getMyResults(
-        req.user.id
-      );
+  getMyResults = async (req: Request, res: Response) => {
+    const results = await this.resultService.getMyResults(req.user!.id);
 
-    return res.json(results);
+    return ApiResponse.success(res, 200, "Results retrieved", results);
   };
 }

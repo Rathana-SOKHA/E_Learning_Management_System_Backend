@@ -2,11 +2,9 @@ import { QuestionRepository } from "../repositories/QuestionRepository.js";
 import { QuizRepository } from "../repositories/QuizRepository.js";
 
 export class QuestionService {
-  private questionRepo =
-    new QuestionRepository();
+  private questionRepo = new QuestionRepository();
 
-  private quizRepo =
-    new QuizRepository();
+  private quizRepo = new QuizRepository();
 
   // CREATE
   async createQuestion(
@@ -16,10 +14,9 @@ export class QuestionService {
     option_b: string,
     option_c: string,
     option_d: string,
-    correct_answer: string
+    correct_answer: string,
   ) {
-    const quiz =
-      await this.quizRepo.findById(quizId);
+    const quiz = await this.quizRepo.findById(quizId);
 
     if (!quiz) {
       throw new Error("Quiz not found");
@@ -43,8 +40,7 @@ export class QuestionService {
 
   // GET ONE
   async getQuestionById(id: number) {
-    const question =
-      await this.questionRepo.findById(id);
+    const question = await this.questionRepo.findById(id);
 
     if (!question) {
       throw new Error("Question not found");
@@ -61,32 +57,27 @@ export class QuestionService {
     option_b: string,
     option_c: string,
     option_d: string,
-    correct_answer: string
+    correct_answer: string,
   ) {
-    const question =
-      await this.questionRepo.findById(id);
+    const question = await this.questionRepo.findById(id);
 
     if (!question) {
       throw new Error("Question not found");
     }
 
-    return this.questionRepo.updateQuestion(
-      id,
-      {
-        question_text,
-        option_a,
-        option_b,
-        option_c,
-        option_d,
-        correct_answer,
-      }
-    );
+    return this.questionRepo.updateQuestion(id, {
+      question_text,
+      option_a,
+      option_b,
+      option_c,
+      option_d,
+      correct_answer,
+    });
   }
 
   // DELETE
   async deleteQuestion(id: number) {
-    const question =
-      await this.questionRepo.findById(id);
+    const question = await this.questionRepo.findById(id);
 
     if (!question) {
       throw new Error("Question not found");
@@ -95,8 +86,7 @@ export class QuestionService {
     await this.questionRepo.deleteQuestion(id);
 
     return {
-      message:
-        "Question deleted successfully",
+      message: "Question deleted successfully",
     };
   }
 }

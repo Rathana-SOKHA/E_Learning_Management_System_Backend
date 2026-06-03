@@ -50,13 +50,9 @@ export class Question {
   correct_answer!: string;
 
   // Question belongs to one Quiz
-  @ManyToOne(
-    () => Quiz,
-    (quiz) => quiz.questions,
-    {
-      onDelete: "CASCADE",
-    }
-  )
+  @ManyToOne(() => Quiz, (quiz) => quiz.questions, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({
     name: "quiz_id",
   })

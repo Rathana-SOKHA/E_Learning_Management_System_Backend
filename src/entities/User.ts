@@ -35,38 +35,26 @@ export class User {
   })
   password!: string;
 
-  // 🔐 Role
+  // Role
   @ManyToOne(() => Role)
   @JoinColumn({
     name: "role_id",
   })
   role!: Role;
 
-  // 👨‍🏫 Teacher → Courses
-  @OneToMany(
-    () => Course,
-    (course) => course.teacher
-  )
+  // Teacher → Courses
+  @OneToMany(() => Course, (course) => course.teacher)
   courses!: Course[];
 
-  // 👨‍🎓 Student → Enrollments
-  @OneToMany(
-    () => Enrollment,
-    (enrollment) => enrollment.user
-  )
+  // Student → Enrollments
+  @OneToMany(() => Enrollment, (enrollment) => enrollment.user)
   enrollments!: Enrollment[];
 
-  // 📈 Student → Progress
-  @OneToMany(
-    () => Progress,
-    (progress) => progress.user
-  )
+  // Student → Progress
+  @OneToMany(() => Progress, (progress) => progress.user)
   progresses!: Progress[];
 
-  // 📝 Student → Quiz Results
-  @OneToMany(
-    () => QuizResult,
-    (result) => result.user
-  )
+  // Student → Quiz Results
+  @OneToMany(() => QuizResult, (result) => result.user)
   quizResults!: QuizResult[];
 }

@@ -1,16 +1,11 @@
 import { Request, Response } from "express";
-
 import { QuestionService } from "../services/QuestionService.js";
+import { ApiResponse } from "../utils/apiResponse.js";
 
 export class QuestionController {
-  private questionService =
-    new QuestionService();
+  private questionService = new QuestionService();
 
-  // CREATE
-  createQuestion = async (
-    req: Request,
-    res: Response
-  ) => {
+  createQuestion = async (req: Request, res: Response) => {
     try {
       const {
         quizId,
@@ -22,77 +17,56 @@ export class QuestionController {
         correct_answer,
       } = req.body;
 
-      const question =
-        await this.questionService.createQuestion(
-          Number(quizId),
-          question_text,
-          option_a,
-          option_b,
-          option_c,
-          option_d,
-          correct_answer
-        );
+      const question = await this.questionService.createQuestion(
+        Number(quizId),
+        question_text,
+        option_a,
+        option_b,
+        option_c,
+        option_d,
+        correct_answer,
+      );
 
-      return res.status(201).json({
-        message:
-          "Question created successfully",
-        question,
-      });
-    } catch (error: any) {
-      return res.status(500).json({
-        message: error.message,
-      });
+      return ApiResponse.success(res, 201, "Question created", question);
+    } catch (error) {
+      if (error instanceof Error) {
+        return ApiResponse.error(res, 500, error.message);
+      }
+      return ApiResponse.error(res, 500, "Failed to create question");
     }
   };
 
-  // GET ALL
-  getQuestions = async (
-    req: Request,
-    res: Response
-  ) => {
+  getQuestions = async (_req: Request, res: Response) => {
     try {
-      const questions =
-        await this.questionService.getQuestions();
+      const questions = await this.questionService.getQuestions();
 
-      return res.status(200).json({
-        data: questions,
-      });
-    } catch (error: any) {
-      return res.status(500).json({
-        message: error.message,
-      });
+      return ApiResponse.success(res, 200, "Questions retrieved", questions);
+    } catch (error) {
+      if (error instanceof Error) {
+        return ApiResponse.error(res, 500, error.message);
+      }
+      return ApiResponse.error(res, 500, "Failed to retrieve questions");
     }
   };
 
-  // GET ONE
-  getQuestionById = async (
-    req: Request,
-    res: Response
-  ) => {
+  getQuestionById = async (req: Request, res: Response) => {
     try {
       const id = Number(req.params.id);
 
-      const question =
-        await this.questionService.getQuestionById(id);
+      const question = await this.questionService.getQuestionById(id);
 
-      return res.status(200).json({
-        data: question,
-      });
-    } catch (error: any) {
-      return res.status(404).json({
-        message: error.message,
-      });
+      return ApiResponse.success(res, 200, "Question retrieved", question);
+    } catch (error) {
+      if (error instanceof Error) {
+        return ApiResponse.error(res, 404, error.message);
+      }
+      return ApiResponse.error(res, 404, "Question not found");
     }
   };
 
-  // UPDATE
-  updateQuestion = async (
-    req: Request,
-    res: Response
-  ) => {
+  updateQuestion = async (req: Request, res: Response) => {
     try {
       const id = Number(req.params.id);
-
       const {
         question_text,
         option_a,
@@ -102,45 +76,37 @@ export class QuestionController {
         correct_answer,
       } = req.body;
 
-      const question =
-        await this.questionService.updateQuestion(
-          id,
-          question_text,
-          option_a,
-          option_b,
-          option_c,
-          option_d,
-          correct_answer
-        );
+      const question = await this.questionService.updateQuestion(
+        id,
+        question_text,
+        option_a,
+        option_b,
+        option_c,
+        option_d,
+        correct_answer,
+      );
 
-      return res.status(200).json({
-        message:
-          "Question updated successfully",
-        question,
-      });
-    } catch (error: any) {
-      return res.status(500).json({
-        message: error.message,
-      });
+      return ApiResponse.success(res, 200, "Question updated", question);
+    } catch (error) {
+      if (error instanceof Error) {
+        return ApiResponse.error(res, 500, error.message);
+      }
+      return ApiResponse.error(res, 500, "Failed to update question");
     }
   };
 
-  // DELETE
-  deleteQuestion = async (
-    req: Request,
-    res: Response
-  ) => {
+  deleteQuestion = async (req: Request, res: Response) => {
     try {
       const id = Number(req.params.id);
 
-      const result =
-        await this.questionService.deleteQuestion(id);
+      await this.questionService.deleteQuestion(id);
 
-      return res.status(200).json(result);
-    } catch (error: any) {
-      return res.status(500).json({
-        message: error.message,
-      });
+      return ApiResponse.success(res, 200, "Question deleted");
+    } catch (error) {
+      if (error instanceof Error) {
+        return ApiResponse.error(res, 500, error.message);
+      }
+      return ApiResponse.error(res, 500, "Failed to delete question");
     }
   };
 }

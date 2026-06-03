@@ -2,8 +2,7 @@ import { AppDataSource } from "../config/data-source.js";
 import { Enrollment } from "../entities/Enrollment.js";
 
 export class EnrollmentRepository {
-  private repo =
-    AppDataSource.getRepository(Enrollment);
+  private repo = AppDataSource.getRepository(Enrollment);
 
   async enroll(data: Partial<Enrollment>) {
     const enrollment = this.repo.create(data);

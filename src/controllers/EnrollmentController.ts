@@ -1,33 +1,26 @@
 import { Request, Response } from "express";
 import { EnrollmentService } from "../services/EnrollmentService.js";
-
-const enrollmentService =
-  new EnrollmentService();
+import { ApiResponse } from "../utils/apiResponse.js";
 
 export class EnrollmentController {
-  enrollCourse = async (
-    req: any,
-    res: Response
-  ) => {
-    try {
-      const userId = Number(req.user.id);
+  private enrollmentService = new EnrollmentService();
 
+  enrollCourse = async (req: Request, res: Response) => {
+    try {
+      const userId = Number(req.user!.id);
       const { courseId } = req.body;
 
-      const enrollment =
-        await enrollmentService.enrollCourse(
-          userId,
-          courseId
-        );
+      const enrollment = await this.enrollmentService.enrollCourse(
+        userId,
+        courseId,
+      );
 
-      return res.status(201).json({
-        message: "Enrolled successfully",
-        enrollment,
-      });
-    } catch (error: any) {
-      return res.status(500).json({
-        message: error.message,
-      });
+      return ApiResponse.success(res, 201, "Enrolled successfully", enrollment);
+    } catch (error) {
+      if (error instanceof Error) {
+        return ApiResponse.error(res, 500, error.message);
+      }
+      return ApiResponse.error(res, 500, "Failed to enroll");
     }
   };
 }

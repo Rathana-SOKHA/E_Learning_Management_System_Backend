@@ -21,14 +21,11 @@ export class Role {
   })
   name!: string;
 
-  // 👤 Role -> Users
+  // Role -> Users
   @OneToMany(() => User, (user) => user.role)
   users!: Relation<User[]>;
 
-  // 🔐 Role -> RolePermissions
-  @OneToMany(
-    () => RolePermission,
-    (rp) => rp.role
-  )
+  // Role -> RolePermissions
+  @OneToMany(() => RolePermission, (rp) => rp.role)
   rolePermissions!: Relation<RolePermission[]>;
 }

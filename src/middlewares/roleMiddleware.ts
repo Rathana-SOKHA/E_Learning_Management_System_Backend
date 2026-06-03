@@ -1,12 +1,15 @@
 import { Request, Response, NextFunction } from "express";
+import { AppError } from "../utils/appError.js";
 
 export const authorizeRoles =
   (...roles: string[]) =>
-  (req: any, res: Response, next: NextFunction) => {
+  (req: Request, res: Response, next: NextFunction) => {
+    if (!req.user) {
+      throw new AppError("Unauthorized", 401);
+    }
+
     if (!roles.includes(req.user.role)) {
-      return res.status(403).json({
-        message: "Forbidden",
-      });
+      throw new AppError("Forbidden", 403);
     }
 
     next();

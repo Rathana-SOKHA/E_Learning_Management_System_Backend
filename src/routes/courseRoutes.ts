@@ -8,35 +8,28 @@ import { authorizeRoles } from "../middlewares/roleMiddleware.js";
 
 const router = Router();
 
-const controller =
-  new CourseController();
+const controller = new CourseController();
 
 // CREATE COURSE
 router.post(
   "/",
   authMiddleware,
   authorizeRoles("TEACHER"),
-  controller.createCourse
+  controller.createCourse,
 );
 
 // GET ALL COURSES
-router.get(
-  "/",
-  controller.getCourses
-);
+router.get("/", controller.getCourses);
 
 // GET ONE COURSE
-router.get(
-  "/:id",
-  controller.getCourseById
-);
+router.get("/:id", controller.getCourseById);
 
 // UPDATE COURSE
 router.put(
   "/:id",
   authMiddleware,
   authorizeRoles("TEACHER"),
-  controller.updateCourse
+  controller.updateCourse,
 );
 
 // DELETE COURSE
@@ -44,7 +37,7 @@ router.delete(
   "/:id",
   authMiddleware,
   authorizeRoles("TEACHER"),
-  controller.deleteCourse
+  controller.deleteCourse,
 );
 
 export default router;

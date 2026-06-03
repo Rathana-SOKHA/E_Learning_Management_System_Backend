@@ -2,21 +2,18 @@ import { LessonRepository } from "../repositories/LessonRepository.js";
 import { CourseRepository } from "../repositories/CourseRepository.js";
 
 export class LessonService {
-  private lessonRepo =
-    new LessonRepository();
+  private lessonRepo = new LessonRepository();
 
-  private courseRepo =
-    new CourseRepository();
+  private courseRepo = new CourseRepository();
 
   // CREATE
   async createLesson(
     courseId: number,
     title: string,
     content: string,
-    video_url: string
+    video_url: string,
   ) {
-    const course =
-      await this.courseRepo.findById(courseId);
+    const course = await this.courseRepo.findById(courseId);
 
     if (!course) {
       throw new Error("Course not found");
@@ -37,8 +34,7 @@ export class LessonService {
 
   // GET ONE
   async getLessonById(id: number) {
-    const lesson =
-      await this.lessonRepo.findById(id);
+    const lesson = await this.lessonRepo.findById(id);
 
     if (!lesson) {
       throw new Error("Lesson not found");
@@ -52,10 +48,9 @@ export class LessonService {
     id: number,
     title: string,
     content: string,
-    video_url: string
+    video_url: string,
   ) {
-    const lesson =
-      await this.lessonRepo.findById(id);
+    const lesson = await this.lessonRepo.findById(id);
 
     if (!lesson) {
       throw new Error("Lesson not found");
@@ -70,8 +65,7 @@ export class LessonService {
 
   // DELETE
   async deleteLesson(id: number) {
-    const lesson =
-      await this.lessonRepo.findById(id);
+    const lesson = await this.lessonRepo.findById(id);
 
     if (!lesson) {
       throw new Error("Lesson not found");
@@ -80,8 +74,7 @@ export class LessonService {
     await this.lessonRepo.deleteLesson(id);
 
     return {
-      message:
-        "Lesson deleted successfully",
+      message: "Lesson deleted successfully",
     };
   }
 }

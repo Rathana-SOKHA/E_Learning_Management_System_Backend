@@ -36,30 +36,20 @@ export class Quiz {
   total_marks!: number;
 
   // Quiz belongs to Course
-  @ManyToOne(
-    () => Course,
-    (course) => course.quizzes,
-    {
-      onDelete: "CASCADE",
-    }
-  )
+  @ManyToOne(() => Course, (course) => course.quizzes, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({
     name: "course_id",
   })
   course!: Course;
 
   // Quiz has many Questions
-  @OneToMany(
-    () => Question,
-    (question) => question.quiz
-  )
+  @OneToMany(() => Question, (question) => question.quiz)
   questions!: Question[];
 
   // Quiz has many Results
-  @OneToMany(
-    () => QuizResult,
-    (result) => result.quiz
-  )
+  @OneToMany(() => QuizResult, (result) => result.quiz)
   results!: QuizResult[];
 
   @CreateDateColumn()

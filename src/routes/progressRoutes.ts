@@ -7,21 +7,20 @@ import { authorizeRoles } from "../middlewares/roleMiddleware.js";
 
 const router = Router();
 
-const controller =
-  new ProgressController();
+const controller = new ProgressController();
 
 router.post(
   "/complete",
   authMiddleware,
   authorizeRoles("STUDENT"),
-  controller.completeLesson
+  controller.completeLesson,
 );
 
 router.get(
   "/my-progress",
   authMiddleware,
   authorizeRoles("STUDENT"),
-  controller.getMyProgress
+  controller.getMyProgress,
 );
 
 export default router;

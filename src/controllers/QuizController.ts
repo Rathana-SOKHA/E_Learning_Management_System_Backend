@@ -1,132 +1,91 @@
 import { Request, Response } from "express";
-
 import { QuizService } from "../services/QuizService.js";
+import { ApiResponse } from "../utils/apiResponse.js";
 
 export class QuizController {
-  private quizService =
-    new QuizService();
+  private quizService = new QuizService();
 
-  // CREATE
-  createQuiz = async (
-    req: Request,
-    res: Response
-  ) => {
+  createQuiz = async (req: Request, res: Response) => {
     try {
-      const {
-        courseId,
+      const { courseId, title, description, total_marks } = req.body;
+
+      const quiz = await this.quizService.createQuiz(
+        Number(courseId),
         title,
         description,
-        total_marks,
-      } = req.body;
+        Number(total_marks),
+      );
 
-      const quiz =
-        await this.quizService.createQuiz(
-          Number(courseId),
-          title,
-          description,
-          Number(total_marks)
-        );
-
-      return res.status(201).json({
-        message: "Quiz created successfully",
-        quiz,
-      });
-    } catch (error: any) {
-      return res.status(500).json({
-        message: error.message,
-      });
+      return ApiResponse.success(res, 201, "Quiz created", quiz);
+    } catch (error) {
+      if (error instanceof Error) {
+        return ApiResponse.error(res, 500, error.message);
+      }
+      return ApiResponse.error(res, 500, "Failed to create quiz");
     }
   };
 
-  // GET ALL
-  getQuizzes = async (
-    req: Request,
-    res: Response
-  ) => {
+  getQuizzes = async (_req: Request, res: Response) => {
     try {
-      const quizzes =
-        await this.quizService.getAllQuizzes();
+      const quizzes = await this.quizService.getAllQuizzes();
 
-      return res.status(200).json({
-        data: quizzes,
-      });
-    } catch (error: any) {
-      return res.status(500).json({
-        message: error.message,
-      });
+      return ApiResponse.success(res, 200, "Quizzes retrieved", quizzes);
+    } catch (error) {
+      if (error instanceof Error) {
+        return ApiResponse.error(res, 500, error.message);
+      }
+      return ApiResponse.error(res, 500, "Failed to retrieve quizzes");
     }
   };
 
-  // GET ONE
-  getQuizById = async (
-    req: Request,
-    res: Response
-  ) => {
+  getQuizById = async (req: Request, res: Response) => {
     try {
       const id = Number(req.params.id);
 
-      const quiz =
-        await this.quizService.getQuizById(id);
+      const quiz = await this.quizService.getQuizById(id);
 
-      return res.status(200).json({
-        data: quiz,
-      });
-    } catch (error: any) {
-      return res.status(404).json({
-        message: error.message,
-      });
+      return ApiResponse.success(res, 200, "Quiz retrieved", quiz);
+    } catch (error) {
+      if (error instanceof Error) {
+        return ApiResponse.error(res, 404, error.message);
+      }
+      return ApiResponse.error(res, 404, "Quiz not found");
     }
   };
 
-  // UPDATE
-  updateQuiz = async (
-    req: Request,
-    res: Response
-  ) => {
+  updateQuiz = async (req: Request, res: Response) => {
     try {
       const id = Number(req.params.id);
+      const { title, description, total_marks } = req.body;
 
-      const {
+      const quiz = await this.quizService.updateQuiz(
+        id,
         title,
         description,
-        total_marks,
-      } = req.body;
+        Number(total_marks),
+      );
 
-      const quiz =
-        await this.quizService.updateQuiz(
-          id,
-          title,
-          description,
-          Number(total_marks)
-        );
-
-      return res.status(200).json({
-        message: "Quiz updated successfully",
-        quiz,
-      });
-    } catch (error: any) {
-      return res.status(500).json({
-        message: error.message,
-      });
+      return ApiResponse.success(res, 200, "Quiz updated", quiz);
+    } catch (error) {
+      if (error instanceof Error) {
+        return ApiResponse.error(res, 500, error.message);
+      }
+      return ApiResponse.error(res, 500, "Failed to update quiz");
     }
   };
 
-  // DELETE
-  deleteQuiz = async (
-    req: Request,
-    res: Response
-  ) => {
+  deleteQuiz = async (req: Request, res: Response) => {
     try {
       const id = Number(req.params.id);
 
-      const result =
-        await this.quizService.deleteQuiz(id);
+      await this.quizService.deleteQuiz(id);
 
-      return res.status(200).json(result);
-    } catch (error: any) {
-      return res.status(500).json({
-        message: error.message,
-      });
+      return ApiResponse.success(res, 200, "Quiz deleted");
+    } catch (error) {
+      if (error instanceof Error) {
+        return ApiResponse.error(res, 500, error.message);
+      }
+      return ApiResponse.error(res, 500, "Failed to delete quiz");
     }
   };
 }

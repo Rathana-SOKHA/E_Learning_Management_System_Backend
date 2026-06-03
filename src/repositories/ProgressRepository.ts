@@ -2,22 +2,15 @@ import { AppDataSource } from "../config/data-source.js";
 import { Progress } from "../entities/Progress.js";
 
 export class ProgressRepository {
-  private repository =
-    AppDataSource.getRepository(Progress);
+  private repository = AppDataSource.getRepository(Progress);
 
-  async create(
-    data: Partial<Progress>
-  ) {
-    const progress =
-      this.repository.create(data);
+  async create(data: Partial<Progress>) {
+    const progress = this.repository.create(data);
 
     return this.repository.save(progress);
   }
 
-  async findByUserAndLesson(
-    userId: number,
-    lessonId: number
-  ) {
+  async findByUserAndLesson(userId: number, lessonId: number) {
     return this.repository.findOne({
       where: {
         user: {
@@ -30,15 +23,11 @@ export class ProgressRepository {
     });
   }
 
-  async save(
-    progress: Progress
-  ) {
+  async save(progress: Progress) {
     return this.repository.save(progress);
   }
 
-  async findByStudent(
-    userId: number
-  ) {
+  async findByStudent(userId: number) {
     return this.repository.find({
       where: {
         user: {

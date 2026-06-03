@@ -2,8 +2,7 @@ import { AppDataSource } from "../config/data-source.js";
 import { Quiz } from "../entities/Quiz.js";
 
 export class QuizRepository {
-  private repository =
-    AppDataSource.getRepository(Quiz);
+  private repository = AppDataSource.getRepository(Quiz);
 
   async createQuiz(data: Partial<Quiz>) {
     const quiz = this.repository.create(data);
@@ -28,10 +27,7 @@ export class QuizRepository {
     });
   }
 
-  async updateQuiz(
-    id: number,
-    data: Partial<Quiz>
-  ) {
+  async updateQuiz(id: number, data: Partial<Quiz>) {
     await this.repository.update(id, data);
 
     return this.findById(id);

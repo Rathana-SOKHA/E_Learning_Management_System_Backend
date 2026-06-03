@@ -4,7 +4,7 @@ import express from "express";
 import authRoutes from "./routes/authRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import studentRoutes from "./routes/studentRoutes.js";
-import teacherRoute from "./routes/teacherRoutes.js";
+import teacherRoute from "./routes/teacherRoute.js";
 import courseRoutes from "./routes/courseRoutes.js";
 import enrollmentRoutes from "./routes/enrollmentRoute.js";
 import lessonRoutes from "./routes/lessonRoutes.js";
@@ -12,6 +12,7 @@ import quizRoutes from "./routes/quizRoutes.js";
 import questionRoutes from "./routes/questionRoutes.js";
 import progressRoutes from "./routes/progressRoutes.js";
 import quizResultRoutes from "./routes/quizResultRoutes.js";
+import { errorHandler } from "./middlewares/errorMiddleware.js";
 
 const app = express();
 
@@ -30,5 +31,7 @@ app.use("/api/quizzes", quizRoutes);
 app.use("/api/questions", questionRoutes);
 app.use("/api/progress", progressRoutes);
 app.use("/api/quiz-results", quizResultRoutes);
+
+app.use(errorHandler);
 
 export default app;

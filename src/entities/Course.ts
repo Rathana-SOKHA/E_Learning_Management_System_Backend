@@ -30,7 +30,7 @@ export class Course {
   })
   description!: string;
 
-  // 👨‍🏫 Teacher relationship
+  // Teacher relationship
   @ManyToOne(() => User, (user) => user.courses, {
     onDelete: "CASCADE",
   })
@@ -39,25 +39,16 @@ export class Course {
   })
   teacher!: User;
 
-  // 📚 Lessons relationship
-  @OneToMany(
-    () => Lesson,
-    (lesson) => lesson.course
-  )
+  // Lessons relationship
+  @OneToMany(() => Lesson, (lesson) => lesson.course)
   lessons!: Lesson[];
 
-  // 🎓 Enrollments relationship
-  @OneToMany(
-    () => Enrollment,
-    (enrollment) => enrollment.course
-  )
+  // Enrollments relationship
+  @OneToMany(() => Enrollment, (enrollment) => enrollment.course)
   enrollments!: Enrollment[];
 
-  // 📝 Quizzes relationship
-  @OneToMany(
-    () => Quiz,
-    (quiz) => quiz.course
-  )
+  // Quizzes relationship
+  @OneToMany(() => Quiz, (quiz) => quiz.course)
   quizzes!: Quiz[];
 
   @CreateDateColumn()

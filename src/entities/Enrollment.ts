@@ -14,14 +14,14 @@ export class Enrollment {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  // 👨‍🎓 Student
+  // Student
   @ManyToOne(() => User, (user) => user.enrollments, {
     onDelete: "CASCADE",
   })
   @JoinColumn({ name: "user_id" })
   user!: User;
 
-  // 📚 Course
+  // Course
   @ManyToOne(() => Course, (course) => course.enrollments, {
     onDelete: "CASCADE",
   })

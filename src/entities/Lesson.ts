@@ -16,14 +16,10 @@ export class Lesson {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  // 📚 Lesson belongs to one Course
-  @ManyToOne(
-    () => Course,
-    (course) => course.lessons,
-    {
-      onDelete: "CASCADE",
-    }
-  )
+  // Lesson belongs to one Course
+  @ManyToOne(() => Course, (course) => course.lessons, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({
     name: "course_id",
   })
@@ -49,10 +45,7 @@ export class Lesson {
   @CreateDateColumn()
   created_at!: Date;
 
-  // 📈 Student progress records for this lesson
-  @OneToMany(
-    () => Progress,
-    (progress) => progress.lesson
-  )
+  // Student progress records for this lesson
+  @OneToMany(() => Progress, (progress) => progress.lesson)
   progresses!: Progress[];
 }

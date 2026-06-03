@@ -7,21 +7,20 @@ import { authorizeRoles } from "../middlewares/roleMiddleware.js";
 
 const router = Router();
 
-const controller =
-  new QuizResultController();
+const controller = new QuizResultController();
 
 router.post(
   "/submit",
   authMiddleware,
   authorizeRoles("STUDENT"),
-  controller.submitQuiz
+  controller.submitQuiz,
 );
 
 router.get(
   "/my-results",
   authMiddleware,
   authorizeRoles("STUDENT"),
-  controller.getMyResults
+  controller.getMyResults,
 );
 
 export default router;

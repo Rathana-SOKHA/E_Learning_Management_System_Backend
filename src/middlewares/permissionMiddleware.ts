@@ -1,21 +1,18 @@
+import { Request, Response, NextFunction } from "express";
+import { AppError } from "../utils/appError.js";
+
 export const authorizePermissions = (...perms: string[]) => {
-  return (req: any, res: any, next: any) => {
+  return (req: Request, res: Response, next: NextFunction) => {
     const userPerms = req.user?.permissions || [];
 
     if (!Array.isArray(userPerms)) {
-      return res.status(403).json({
-        message: "Permissions not loaded",
-      });
+      throw new AppError("Permissions not loaded", 403);
     }
 
-    const ok = perms.every((p) =>
-      userPerms.includes(p)
-    );
+    const ok = perms.every((p) => userPerms.includes(p));
 
     if (!ok) {
-      return res.status(403).json({
-        message: "Forbidden - No Permission",
-      });
+      throw new AppError("Forbidden - No Permission", 403);
     }
 
     next();

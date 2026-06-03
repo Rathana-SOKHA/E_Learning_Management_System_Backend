@@ -14,25 +14,17 @@ export class Progress {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @ManyToOne(
-    () => User,
-    (user) => user.progresses,
-    {
-      onDelete: "CASCADE",
-    }
-  )
+  @ManyToOne(() => User, (user) => user.progresses, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({
     name: "user_id",
   })
   user!: User;
 
-  @ManyToOne(
-    () => Lesson,
-    (lesson) => lesson.progresses,
-    {
-      onDelete: "CASCADE",
-    }
-  )
+  @ManyToOne(() => Lesson, (lesson) => lesson.progresses, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({
     name: "lesson_id",
   })

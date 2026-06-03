@@ -1,21 +1,20 @@
 import { Request, Response } from "express";
 import { AuthService } from "../services/AuthService.js";
-
-const authService = new AuthService();
+import { ApiResponse } from "../utils/apiResponse.js";
 
 export class AuthController {
+  private authService = new AuthService();
+
   async register(req: Request, res: Response) {
     try {
-      const user = await authService.register(req.body);
+      const user = await this.authService.register(req.body);
 
-      res.status(201).json({
-        message: "Register success",
-        user,
-      });
-    } catch (error: any) {
-      res.status(400).json({
-        message: error.message,
-      });
+      return ApiResponse.success(res, 201, "Register success", user);
+    } catch (error) {
+      if (error instanceof Error) {
+        return ApiResponse.error(res, 400, error.message);
+      }
+      return ApiResponse.error(res, 400, "Registration failed");
     }
   }
 
@@ -23,16 +22,14 @@ export class AuthController {
     try {
       const { email, password } = req.body;
 
-      const result = await authService.login(
-        email,
-        password
-      );
+      const result = await this.authService.login(email, password);
 
-      res.json(result);
-    } catch (error: any) {
-      res.status(400).json({
-        message: error.message,
-      });
+      return ApiResponse.success(res, 200, "Login success", result);
+    } catch (error) {
+      if (error instanceof Error) {
+        return ApiResponse.error(res, 400, error.message);
+      }
+      return ApiResponse.error(res, 400, "Login failed");
     }
   }
 }

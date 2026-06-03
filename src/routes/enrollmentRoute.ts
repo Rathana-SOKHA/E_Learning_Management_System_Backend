@@ -8,14 +8,13 @@ import { authorizeRoles } from "../middlewares/roleMiddleware.js";
 
 const router = Router();
 
-const controller =
-  new EnrollmentController();
+const controller = new EnrollmentController();
 
 router.post(
   "/",
   authMiddleware,
   authorizeRoles("STUDENT"),
-  controller.enrollCourse
+  controller.enrollCourse,
 );
 
 export default router;

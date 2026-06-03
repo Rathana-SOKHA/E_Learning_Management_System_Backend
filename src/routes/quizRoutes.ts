@@ -8,35 +8,28 @@ import { authorizeRoles } from "../middlewares/roleMiddleware.js";
 
 const router = Router();
 
-const controller =
-  new QuizController();
+const controller = new QuizController();
 
 // CREATE QUIZ
 router.post(
   "/",
   authMiddleware,
   authorizeRoles("TEACHER"),
-  controller.createQuiz
+  controller.createQuiz,
 );
 
 // GET ALL QUIZZES
-router.get(
-  "/",
-  controller.getQuizzes
-);
+router.get("/", controller.getQuizzes);
 
 // GET ONE QUIZ
-router.get(
-  "/:id",
-  controller.getQuizById
-);
+router.get("/:id", controller.getQuizById);
 
 // UPDATE QUIZ
 router.put(
   "/:id",
   authMiddleware,
   authorizeRoles("TEACHER"),
-  controller.updateQuiz
+  controller.updateQuiz,
 );
 
 // DELETE QUIZ
@@ -44,7 +37,7 @@ router.delete(
   "/:id",
   authMiddleware,
   authorizeRoles("TEACHER"),
-  controller.deleteQuiz
+  controller.deleteQuiz,
 );
 
 export default router;

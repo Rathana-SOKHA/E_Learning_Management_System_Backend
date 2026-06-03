@@ -2,15 +2,11 @@ import { AppDataSource } from "../config/data-source.js";
 import { Question } from "../entities/Question.js";
 
 export class QuestionRepository {
-  private repository =
-    AppDataSource.getRepository(Question);
+  private repository = AppDataSource.getRepository(Question);
 
   // CREATE
-  async createQuestion(
-    data: Partial<Question>
-  ) {
-    const question =
-      this.repository.create(data);
+  async createQuestion(data: Partial<Question>) {
+    const question = this.repository.create(data);
 
     return this.repository.save(question);
   }
@@ -35,10 +31,7 @@ export class QuestionRepository {
   }
 
   // UPDATE
-  async updateQuestion(
-    id: number,
-    data: Partial<Question>
-  ) {
+  async updateQuestion(id: number, data: Partial<Question>) {
     await this.repository.update(id, data);
 
     return this.findById(id);

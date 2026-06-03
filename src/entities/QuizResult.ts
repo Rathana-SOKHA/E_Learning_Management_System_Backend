@@ -15,19 +15,11 @@ export class QuizResult {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @ManyToOne(
-    () => User,
-    (user) => user.quizResults,
-    { onDelete: "CASCADE" }
-  )
+  @ManyToOne(() => User, (user) => user.quizResults, { onDelete: "CASCADE" })
   @JoinColumn({ name: "user_id" })
   user!: User;
 
-  @ManyToOne(
-    () => Quiz,
-    (quiz) => quiz.results,
-    { onDelete: "CASCADE" }
-  )
+  @ManyToOne(() => Quiz, (quiz) => quiz.results, { onDelete: "CASCADE" })
   @JoinColumn({ name: "quiz_id" })
   quiz!: Quiz;
 

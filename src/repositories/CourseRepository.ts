@@ -2,13 +2,11 @@ import { AppDataSource } from "../config/data-source.js";
 import { Course } from "../entities/Course.js";
 
 export class CourseRepository {
-  private repository =
-    AppDataSource.getRepository(Course);
+  private repository = AppDataSource.getRepository(Course);
 
   // CREATE
   async createCourse(data: Partial<Course>) {
-    const course =
-      this.repository.create(data);
+    const course = this.repository.create(data);
 
     return this.repository.save(course);
   }
@@ -37,10 +35,7 @@ export class CourseRepository {
   }
 
   // UPDATE
-  async updateCourse(
-    id: number,
-    data: Partial<Course>
-  ) {
+  async updateCourse(id: number, data: Partial<Course>) {
     await this.repository.update(id, data);
 
     return this.findById(id);

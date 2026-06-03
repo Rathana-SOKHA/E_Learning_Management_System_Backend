@@ -14,7 +14,7 @@ export class RolePermission {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  // 🔐 Role relationship
+  // Role relationship
   @ManyToOne(() => Role, (role) => role.rolePermissions, {
     onDelete: "CASCADE",
   })
@@ -23,14 +23,10 @@ export class RolePermission {
   })
   role!: Relation<Role>;
 
-  // 🔐 Permission relationship
-  @ManyToOne(
-    () => Permission,
-    (permission) => permission.rolePermissions,
-    {
-      onDelete: "CASCADE",
-    }
-  )
+  // Permission relationship
+  @ManyToOne(() => Permission, (permission) => permission.rolePermissions, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({
     name: "permission_id",
   })

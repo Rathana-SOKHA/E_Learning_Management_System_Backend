@@ -12,7 +12,7 @@ router.get(
     res.json({
       message: "Welcome Admin Page",
     });
-  }
+  },
 );
 
 export default router;

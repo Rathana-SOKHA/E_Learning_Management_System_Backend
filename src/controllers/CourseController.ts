@@ -1,130 +1,89 @@
 import { Request, Response } from "express";
-
 import { CourseService } from "../services/courseService.js";
+import { ApiResponse } from "../utils/apiResponse.js";
 
 export class CourseController {
-  private courseService =
-    new CourseService();
+  private courseService = new CourseService();
 
-  // CREATE
-  createCourse = async (
-    req: Request,
-    res: Response
-  ) => {
+  createCourse = async (req: Request, res: Response) => {
     try {
-      const {
-        teacherId,
+      const { teacherId, title, description } = req.body;
+
+      const course = await this.courseService.createCourse(
+        Number(teacherId),
         title,
         description,
-      } = req.body;
+      );
 
-      const course =
-        await this.courseService.createCourse(
-          Number(teacherId),
-          title,
-          description
-        );
-
-      return res.status(201).json({
-        message:
-          "Course created successfully",
-        course,
-      });
-    } catch (error: any) {
-      return res.status(500).json({
-        message: error.message,
-      });
+      return ApiResponse.success(res, 201, "Course created", course);
+    } catch (error) {
+      if (error instanceof Error) {
+        return ApiResponse.error(res, 500, error.message);
+      }
+      return ApiResponse.error(res, 500, "Failed to create course");
     }
   };
 
-  // GET ALL
-  getCourses = async (
-    req: Request,
-    res: Response
-  ) => {
+  getCourses = async (_req: Request, res: Response) => {
     try {
-      const courses =
-        await this.courseService.getAllCourses();
+      const courses = await this.courseService.getAllCourses();
 
-      return res.status(200).json({
-        data: courses,
-      });
-    } catch (error: any) {
-      return res.status(500).json({
-        message: error.message,
-      });
+      return ApiResponse.success(res, 200, "Courses retrieved", courses);
+    } catch (error) {
+      if (error instanceof Error) {
+        return ApiResponse.error(res, 500, error.message);
+      }
+      return ApiResponse.error(res, 500, "Failed to retrieve courses");
     }
   };
 
-  // GET ONE
-  getCourseById = async (
-    req: Request,
-    res: Response
-  ) => {
+  getCourseById = async (req: Request, res: Response) => {
     try {
       const id = Number(req.params.id);
 
-      const course =
-        await this.courseService.getCourseById(id);
+      const course = await this.courseService.getCourseById(id);
 
-      return res.status(200).json({
-        data: course,
-      });
-    } catch (error: any) {
-      return res.status(404).json({
-        message: error.message,
-      });
+      return ApiResponse.success(res, 200, "Course retrieved", course);
+    } catch (error) {
+      if (error instanceof Error) {
+        return ApiResponse.error(res, 404, error.message);
+      }
+      return ApiResponse.error(res, 404, "Course not found");
     }
   };
 
-  // UPDATE
-  updateCourse = async (
-    req: Request,
-    res: Response
-  ) => {
+  updateCourse = async (req: Request, res: Response) => {
     try {
       const id = Number(req.params.id);
+      const { title, description } = req.body;
 
-      const {
+      const course = await this.courseService.updateCourse(
+        id,
         title,
         description,
-      } = req.body;
+      );
 
-      const course =
-        await this.courseService.updateCourse(
-          id,
-          title,
-          description
-        );
-
-      return res.status(200).json({
-        message:
-          "Course updated successfully",
-        course,
-      });
-    } catch (error: any) {
-      return res.status(500).json({
-        message: error.message,
-      });
+      return ApiResponse.success(res, 200, "Course updated", course);
+    } catch (error) {
+      if (error instanceof Error) {
+        return ApiResponse.error(res, 500, error.message);
+      }
+      return ApiResponse.error(res, 500, "Failed to update course");
     }
   };
 
-  // DELETE
-  deleteCourse = async (
-    req: Request,
-    res: Response
-  ) => {
+  deleteCourse = async (req: Request, res: Response) => {
     try {
       const id = Number(req.params.id);
 
-      const result =
-        await this.courseService.deleteCourse(id);
+      await this.courseService.deleteCourse(id);
 
-      return res.status(200).json(result);
-    } catch (error: any) {
-      return res.status(500).json({
-        message: error.message,
-      });
+      return ApiResponse.success(res, 200, "Course deleted");
+    } catch (error) {
+      if (error instanceof Error) {
+        return ApiResponse.error(res, 500, error.message);
+      }
+      return ApiResponse.error(res, 500, "Failed to delete course");
     }
   };
 }

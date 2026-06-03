@@ -12,6 +12,6 @@ export class Permission {
   })
   name!: string;
 
-  @OneToMany(() => RolePermission, rp => rp.permission)
+  @OneToMany(() => RolePermission, (rp) => rp.permission)
   rolePermissions!: RolePermission[];
 }
