@@ -51,5 +51,22 @@ export class UserRepository {
       return null;
     }
   }
+
+  async findAll() {
+    try {
+      return await this.repository.find({
+        relations: {
+          role: {
+            rolePermissions: {
+              permission: true,
+            },
+          },
+        },
+      });
+    } catch (error) {
+      console.error("FindAll Error:", error);
+      return [];
+    }
+  }
 }
 

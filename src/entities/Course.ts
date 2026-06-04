@@ -10,6 +10,7 @@ import {
 
 import { User } from "./User.js";
 import { Lesson } from "./Lesson.js";
+import { Enrollment } from "./Enrollment.js";
 
 @Entity("courses")
 export class Course {
@@ -33,6 +34,8 @@ export class Course {
   created_at!: Date;
 
   @OneToMany(() => Lesson, (lesson) => lesson.course)
-    lessons!: Lesson[];
-    enrollments: any;
+  lessons!: Lesson[];
+
+  @OneToMany(() => Enrollment, (enrollment) => enrollment.course)
+  enrollments!: Enrollment[];
 }

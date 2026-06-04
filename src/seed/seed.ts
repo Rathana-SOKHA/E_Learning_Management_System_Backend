@@ -3,6 +3,8 @@ import { AppDataSource } from "../config/data-source.js";
 import { Role } from "../entities/Role.js";
 import { Permission } from "../entities/Permission.js";
 import { RolePermission } from "../entities/RolePermission.js";
+import { User } from "../entities/User.js";
+import { hashPassword } from "../utils/hashPassword.js";
 
 const permissionsList = [
   "create_course",
@@ -40,12 +42,34 @@ const roles = [
   },
 ];
 
+const testUsers = [
+  {
+    full_name: "Admin User",
+    email: "admin@example.com",
+    password: "admin123",
+    role: "ADMIN",
+  },
+  {
+    full_name: "John Teacher",
+    email: "teacher@example.com",
+    password: "teacher123",
+    role: "TEACHER",
+  },
+  {
+    full_name: "Jane Student",
+    email: "student@example.com",
+    password: "student123",
+    role: "STUDENT",
+  },
+];
+
 export const seed = async () => {
   await AppDataSource.initialize();
 
   const roleRepo = AppDataSource.getRepository(Role);
   const permRepo = AppDataSource.getRepository(Permission);
   const rolePermRepo = AppDataSource.getRepository(RolePermission);
+  const userRepo = AppDataSource.getRepository(User);
 
   console.log("🌱 Seeder started");
 
@@ -67,6 +91,7 @@ export const seed = async () => {
    console.log("Permission map keys:", Object.keys(permissionMap));
 
   // 2. CREATE ROLES
+  const roleMap: Record<string, Role> = {};
   for (const roleData of roles) {
     let role = await roleRepo.findOne({
       where: { name: roleData.name },
@@ -77,6 +102,8 @@ export const seed = async () => {
         roleRepo.create({ name: roleData.name })
       );
     }
+
+    roleMap[roleData.name] = role;
 
     // 3. LINK ROLE ↔ PERMISSION
     for (const permName of roleData.permissions) {
@@ -104,7 +131,43 @@ export const seed = async () => {
     }
   }
 
+  console.log("✅ Roles and Permissions created");
+
+  // 4. CREATE TEST USERS
+  for (const userData of testUsers) {
+    const existingUser = await userRepo.findOne({
+      where: { email: userData.email },
+    });
+
+    if (!existingUser) {
+      const hashedPassword = await hashPassword(userData.password);
+      const role = roleMap[userData.role];
+
+      const user = userRepo.create({
+        full_name: userData.full_name,
+        email: userData.email,
+        password: hashedPassword,
+        role,
+      });
+
+      await userRepo.save(user);
+      console.log(`✅ User created: ${userData.email} (${userData.role})`);
+    } else {
+      console.log(`⏭️  User already exists: ${userData.email}`);
+    }
+  }
+
   console.log("✅ Seeder completed");
+  console.log("\n📋 Test Users Created:");
+  console.log("┌─────────────────────────────────────┐");
+  for (const user of testUsers) {
+    console.log(`├ Email: ${user.email}`);
+    console.log(`│ Password: ${user.password}`);
+    console.log(`│ Role: ${user.role}`);
+    console.log("├─────────────────────────────────────┤");
+  }
+  console.log("└─────────────────────────────────────┘");
+
   process.exit(0);
 };
 

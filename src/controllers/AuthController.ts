@@ -28,9 +28,18 @@ export class AuthController {
 
       const result = await authService.login(email, password);
 
-      res.json(result);
+      res.json({
+        success: true,
+        message: "Login successful",
+        token: result.token,
+        tokenType: "Bearer",
+        expiresIn: "1d",
+        user: result.user,
+        instructions: "Use this token in Authorization header: Authorization: Bearer <token>"
+      });
     } catch (error: any) {
       res.status(400).json({
+        success: false,
         message: error.message,
       });
     }
@@ -57,30 +66,54 @@ export class AuthController {
     }
   }
 
-  async profile(req: Request, res: Response) {
+  async getProfile(req: Request, res: Response) {
     try {
-      console.log("🛠️ Profile - req.user:", req.user); // ← Debug log
+      console.log("🛠️ getProfile called");
+      console.log("📍 req.user:", req.user);
 
-      const userId = req.user?.id || req.user?.userId;
+      const userId = req.user?.id;
 
       if (!userId) {
+        console.log("❌ No userId found in token");
         return res.status(401).json({
           success: false,
           message: "Unauthorized - No user ID found in token"
         });
       }
 
+      console.log("✅ UserId extracted:", userId);
+
       const user = await authService.getProfile(userId);
+
+      console.log("✅ User profile retrieved:", user);
 
       res.json({
         success: true,
         user
       });
     } catch (error: any) {
-      console.error("❌ Profile Error:", error);
+      console.error("❌ Profile Error:", error.message);
       res.status(500).json({
         success: false,
         message: error.message || "Failed to get profile"
+      });
+    }
+  }
+
+  async getAllUsers(req: Request, res: Response) {
+    try {
+      const users = await authService.getAllUsers();
+
+      res.json({
+        success: true,
+        count: users.length,
+        users
+      });
+    } catch (error: any) {
+      console.error("❌ GetAllUsers Error:", error);
+      res.status(500).json({
+        success: false,
+        message: error.message || "Failed to get users"
       });
     }
   }
