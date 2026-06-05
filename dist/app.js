@@ -1,6 +1,5 @@
 import express from "express";
 // import cors from "cors";
-
 import authRoutes from "./routes/authRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import studentRoutes from "./routes/studentRoutes.js";
@@ -13,19 +12,14 @@ import questionRoutes from "./routes/questionRoutes.js";
 import progressRoutes from "./routes/progressRoutes.js";
 import quizResultRoutes from "./routes/quizResultRoutes.js";
 import { errorHandler } from "./middlewares/errorMiddleware.js";
-
 const app = express();
-
 // app.use(cors());
-
 app.use(express.json());
-
 // app.get("/", (req, res) => {
 //   res.json({
 //     message: "E-Learning Management System API is running",
 //   });
 // });
-
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/student", studentRoutes);
@@ -37,7 +31,5 @@ app.use("/api/quizzes", quizRoutes);
 app.use("/api/questions", questionRoutes);
 app.use("/api/progress", progressRoutes);
 app.use("/api/quiz-results", quizResultRoutes);
-
 app.use(errorHandler);
-
 export default app;
