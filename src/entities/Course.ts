@@ -7,13 +7,12 @@ import {
   JoinColumn,
   CreateDateColumn,
   OneToMany,
-  Relation,
 } from "typeorm";
 
-import { User } from "./User.js";
-import { Lesson } from "./Lesson.js";
-import { Enrollment } from "./Enrollment.js";
-import { Quiz } from "./Quiz.js";
+import type { User } from "./User.js";
+import type { Lesson } from "./Lesson.js";
+import type { Enrollment } from "./Enrollment.js";
+import type { Quiz } from "./Quiz.js";
 
 @Entity("courses")
 export class Course {
@@ -39,19 +38,16 @@ export class Course {
   @JoinColumn({
     name: "teacher_id",
   })
-  teacher!: Relation<User>;
+  teacher!: User;
 
-  // Lessons relationship
   @OneToMany(() => Lesson, (lesson) => lesson.course)
-  lessons!: Relation<Lesson[]>;
+  lessons!: Lesson[];
 
-  // Enrollments relationship
   @OneToMany(() => Enrollment, (enrollment) => enrollment.course)
-  enrollments!: Relation<Enrollment[]>;
+  enrollments!: Enrollment[];
 
-  // Quizzes relationship
   @OneToMany(() => Quiz, (quiz) => quiz.course)
-  quizzes!: Relation<Quiz[]>;
+  quizzes!: Quiz[];
 
   @CreateDateColumn()
   created_at!: Date;

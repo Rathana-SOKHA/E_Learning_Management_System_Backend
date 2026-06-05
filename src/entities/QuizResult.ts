@@ -6,11 +6,10 @@ import {
   ManyToOne,
   JoinColumn,
   CreateDateColumn,
-  Relation,
 } from "typeorm";
 
-import { User } from "./User.js";
-import { Quiz } from "./Quiz.js";
+import type { User } from "./User.js";
+import type { Quiz } from "./Quiz.js";
 
 @Entity("quiz_results")
 export class QuizResult {
@@ -21,13 +20,13 @@ export class QuizResult {
     onDelete: "CASCADE",
   })
   @JoinColumn({ name: "user_id" })
-  user!: Relation<User>;
+  user!: User;
 
   @ManyToOne(() => Quiz, (quiz) => quiz.results, {
     onDelete: "CASCADE",
   })
   @JoinColumn({ name: "quiz_id" })
-  quiz!: Relation<Quiz>;
+  quiz!: Quiz;
 
   @Column({
     type: "int",

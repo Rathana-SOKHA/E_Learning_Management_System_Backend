@@ -5,11 +5,10 @@ import {
   ManyToOne,
   JoinColumn,
   CreateDateColumn,
-  Relation,
 } from "typeorm";
 
-import { User } from "./User.js";
-import { Course } from "./Course.js";
+import type { User } from "./User.js";
+import type { Course } from "./Course.js";
 
 @Entity("enrollments")
 export class Enrollment {
@@ -21,14 +20,14 @@ export class Enrollment {
     onDelete: "CASCADE",
   })
   @JoinColumn({ name: "user_id" })
-  user!: Relation<User>;
+  user!: User;
 
   // Course
   @ManyToOne(() => Course, (course) => course.enrollments, {
     onDelete: "CASCADE",
   })
   @JoinColumn({ name: "course_id" })
-  course!: Relation<Course>;
+  course!: Course;
 
   @CreateDateColumn()
   enrolled_at!: Date;

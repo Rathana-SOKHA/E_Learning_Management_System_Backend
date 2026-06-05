@@ -7,11 +7,10 @@ import {
   OneToMany,
   JoinColumn,
   CreateDateColumn,
-  Relation,
 } from "typeorm";
 
-import { Course } from "./Course.js";
-import { Progress } from "./Progress.js";
+import type { Course } from "./Course.js";
+import type { Progress } from "./Progress.js";
 
 @Entity("lessons")
 export class Lesson {
@@ -25,7 +24,7 @@ export class Lesson {
   @JoinColumn({
     name: "course_id",
   })
-  course!: Relation<Course>;
+  course!: Course;
 
   @Column({
     type: "text",
@@ -49,5 +48,5 @@ export class Lesson {
 
   // Student progress records for this lesson
   @OneToMany(() => Progress, (progress) => progress.lesson)
-  progresses!: Relation<Progress[]>;
+  progresses!: Progress[];
 }

@@ -68,11 +68,11 @@ import {
   OneToMany,
 } from "typeorm";
 
-import { Role } from "./Role.js";
-import { Enrollment } from "./Enrollment.js";
-import { Course } from "./Course.js";
-import { Progress } from "./Progress.js";
-import { QuizResult } from "./QuizResult.js";
+import type { Role } from "./Role.js";
+import type { Enrollment } from "./Enrollment.js";
+import type { Course } from "./Course.js";
+import type { Progress } from "./Progress.js";
+import type { QuizResult } from "./QuizResult.js";
 
 @Entity("users")
 export class User {
