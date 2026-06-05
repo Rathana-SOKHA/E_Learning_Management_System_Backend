@@ -1,3 +1,4 @@
+// 
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -5,6 +6,7 @@ import {
   ManyToOne,
   JoinColumn,
   CreateDateColumn,
+  Relation,
 } from "typeorm";
 
 import { User } from "./User.js";
@@ -15,13 +17,17 @@ export class QuizResult {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @ManyToOne(() => User, (user) => user.quizResults, { onDelete: "CASCADE" })
+  @ManyToOne(() => User, (user) => user.quizResults, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({ name: "user_id" })
-  user!: User;
+  user!: Relation<User>;
 
-  @ManyToOne(() => Quiz, (quiz) => quiz.results, { onDelete: "CASCADE" })
+  @ManyToOne(() => Quiz, (quiz) => quiz.results, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({ name: "quiz_id" })
-  quiz!: Quiz;
+  quiz!: Relation<Quiz>;
 
   @Column({
     type: "int",

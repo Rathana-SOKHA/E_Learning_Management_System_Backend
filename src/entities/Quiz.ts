@@ -1,3 +1,4 @@
+// 
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -6,6 +7,7 @@ import {
   JoinColumn,
   CreateDateColumn,
   OneToMany,
+  Relation,
 } from "typeorm";
 
 import { Course } from "./Course.js";
@@ -42,15 +44,15 @@ export class Quiz {
   @JoinColumn({
     name: "course_id",
   })
-  course!: Course;
+  course!: Relation<Course>;
 
   // Quiz has many Questions
   @OneToMany(() => Question, (question) => question.quiz)
-  questions!: Question[];
+  questions!: Relation<Question[]>;
 
   // Quiz has many Results
   @OneToMany(() => QuizResult, (result) => result.quiz)
-  results!: QuizResult[];
+  results!: Relation<QuizResult[]>;
 
   @CreateDateColumn()
   created_at!: Date;

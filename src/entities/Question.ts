@@ -1,3 +1,4 @@
+// 
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -5,6 +6,7 @@ import {
   ManyToOne,
   JoinColumn,
   CreateDateColumn,
+  Relation,
 } from "typeorm";
 
 import { Quiz } from "./Quiz.js";
@@ -56,7 +58,7 @@ export class Question {
   @JoinColumn({
     name: "quiz_id",
   })
-  quiz!: Quiz;
+  quiz!: Relation<Quiz>;
 
   @CreateDateColumn()
   created_at!: Date;

@@ -1,3 +1,4 @@
+// 
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -6,6 +7,7 @@ import {
   JoinColumn,
   CreateDateColumn,
   OneToMany,
+  Relation,
 } from "typeorm";
 
 import { User } from "./User.js";
@@ -37,19 +39,19 @@ export class Course {
   @JoinColumn({
     name: "teacher_id",
   })
-  teacher!: User;
+  teacher!: Relation<User>;
 
   // Lessons relationship
   @OneToMany(() => Lesson, (lesson) => lesson.course)
-  lessons!: Lesson[];
+  lessons!: Relation<Lesson[]>;
 
   // Enrollments relationship
   @OneToMany(() => Enrollment, (enrollment) => enrollment.course)
-  enrollments!: Enrollment[];
+  enrollments!: Relation<Enrollment[]>;
 
   // Quizzes relationship
   @OneToMany(() => Quiz, (quiz) => quiz.course)
-  quizzes!: Quiz[];
+  quizzes!: Relation<Quiz[]>;
 
   @CreateDateColumn()
   created_at!: Date;

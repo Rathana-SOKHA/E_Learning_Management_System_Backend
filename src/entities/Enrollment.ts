@@ -1,9 +1,11 @@
+// 
 import {
   Entity,
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
   CreateDateColumn,
+  Relation,
 } from "typeorm";
 
 import { User } from "./User.js";
@@ -19,14 +21,14 @@ export class Enrollment {
     onDelete: "CASCADE",
   })
   @JoinColumn({ name: "user_id" })
-  user!: User;
+  user!: Relation<User>;
 
   // Course
   @ManyToOne(() => Course, (course) => course.enrollments, {
     onDelete: "CASCADE",
   })
   @JoinColumn({ name: "course_id" })
-  course!: Course;
+  course!: Relation<Course>;
 
   @CreateDateColumn()
   enrolled_at!: Date;

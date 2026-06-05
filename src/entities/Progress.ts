@@ -1,9 +1,11 @@
+// 
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
   JoinColumn,
+  Relation,
 } from "typeorm";
 
 import { User } from "./User.js";
@@ -20,7 +22,7 @@ export class Progress {
   @JoinColumn({
     name: "user_id",
   })
-  user!: User;
+  user!: Relation<User>;
 
   @ManyToOne(() => Lesson, (lesson) => lesson.progresses, {
     onDelete: "CASCADE",
@@ -28,7 +30,7 @@ export class Progress {
   @JoinColumn({
     name: "lesson_id",
   })
-  lesson!: Lesson;
+  lesson!: Relation<Lesson>;
 
   @Column({
     type: "boolean",
