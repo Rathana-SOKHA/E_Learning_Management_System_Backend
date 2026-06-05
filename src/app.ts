@@ -20,11 +20,11 @@ const app = express();
 
 app.use(express.json());
 
-// app.get("/", (req, res) => {
-//   res.json({
-//     message: "E-Learning Management System API is running",
-//   });
-// });
+app.get("/", (req, res) => {
+  res.json({
+    message: "E-Learning Management System API is running",
+  });
+});
 
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
