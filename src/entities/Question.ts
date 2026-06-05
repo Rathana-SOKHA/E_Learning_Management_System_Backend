@@ -8,7 +8,7 @@ import {
   CreateDateColumn,
 } from "typeorm";
 
-import type { Quiz } from "./Quiz.js";
+import { Quiz } from "./Quiz.js";
 
 @Entity("questions")
 export class Question {

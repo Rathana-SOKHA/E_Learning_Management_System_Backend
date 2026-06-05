@@ -9,9 +9,9 @@ import {
   OneToMany,
 } from "typeorm";
 
-import type { Course } from "./Course.js";
-import type { Question } from "./Question.js";
-import type { QuizResult } from "./QuizResult.js";
+import { Course } from "./Course.js";
+import { Question } from "./Question.js";
+import { QuizResult } from "./QuizResult.js";
 
 @Entity("quizzes")
 export class Quiz {

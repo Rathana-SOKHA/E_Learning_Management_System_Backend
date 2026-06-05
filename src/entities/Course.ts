@@ -9,10 +9,10 @@ import {
   OneToMany,
 } from "typeorm";
 
-import type { User } from "./User.js";
-import type { Lesson } from "./Lesson.js";
-import type { Enrollment } from "./Enrollment.js";
-import type { Quiz } from "./Quiz.js";
+import { User } from "./User.js";
+import { Lesson } from "./Lesson.js";
+import { Enrollment } from "./Enrollment.js";
+import { Quiz } from "./Quiz.js";
 
 @Entity("courses")
 export class Course {

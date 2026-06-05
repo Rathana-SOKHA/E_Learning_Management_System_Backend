@@ -7,8 +7,8 @@ import {
   CreateDateColumn,
 } from "typeorm";
 
-import type { User } from "./User.js";
-import type { Course } from "./Course.js";
+import { User } from "./User.js";
+import { Course } from "./Course.js";
 
 @Entity("enrollments")
 export class Enrollment {

@@ -9,8 +9,8 @@ import {
   CreateDateColumn,
 } from "typeorm";
 
-import type { Course } from "./Course.js";
-import type { Progress } from "./Progress.js";
+import { Course } from "./Course.js";
+import { Progress } from "./Progress.js";
 
 @Entity("lessons")
 export class Lesson {
