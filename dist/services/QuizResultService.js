@@ -2,11 +2,9 @@ import { QuizResultRepository } from "../repositories/QuizResultRepository.js";
 import { UserRepository } from "../repositories/UserRepository.js";
 import { QuizRepository } from "../repositories/QuizRepository.js";
 export class QuizResultService {
-    constructor() {
-        this.resultRepo = new QuizResultRepository();
-        this.userRepo = new UserRepository();
-        this.quizRepo = new QuizRepository();
-    }
+    resultRepo = new QuizResultRepository();
+    userRepo = new UserRepository();
+    quizRepo = new QuizRepository();
     async submitQuiz(userId, quizId, score) {
         const student = await this.userRepo.findById(userId);
         const quiz = await this.quizRepo.findById(quizId);

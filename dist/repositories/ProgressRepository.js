@@ -1,9 +1,7 @@
 import { AppDataSource } from "../config/data-source.js";
 import { Progress } from "../entities/Progress.js";
 export class ProgressRepository {
-    constructor() {
-        this.repository = AppDataSource.getRepository(Progress);
-    }
+    repository = AppDataSource.getRepository(Progress);
     async create(data) {
         const progress = this.repository.create(data);
         return this.repository.save(progress);

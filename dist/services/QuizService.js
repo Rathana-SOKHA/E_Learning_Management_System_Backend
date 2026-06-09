@@ -1,10 +1,8 @@
 import { QuizRepository } from "../repositories/QuizRepository.js";
 import { CourseRepository } from "../repositories/CourseRepository.js";
 export class QuizService {
-    constructor() {
-        this.quizRepo = new QuizRepository();
-        this.courseRepo = new CourseRepository();
-    }
+    quizRepo = new QuizRepository();
+    courseRepo = new CourseRepository();
     // CREATE QUIZ
     async createQuiz(courseId, title, description, total_marks) {
         const course = await this.courseRepo.findById(courseId);

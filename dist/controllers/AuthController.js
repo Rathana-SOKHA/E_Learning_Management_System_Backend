@@ -1,9 +1,7 @@
 import { AuthService } from "../services/AuthService.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 export class AuthController {
-    constructor() {
-        this.authService = new AuthService();
-    }
+    authService = new AuthService();
     async register(req, res) {
         try {
             const user = await this.authService.register(req.body);

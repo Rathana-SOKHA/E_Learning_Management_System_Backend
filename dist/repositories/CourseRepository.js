@@ -1,9 +1,7 @@
 import { AppDataSource } from "../config/data-source.js";
 import { Course } from "../entities/Course.js";
 export class CourseRepository {
-    constructor() {
-        this.repository = AppDataSource.getRepository(Course);
-    }
+    repository = AppDataSource.getRepository(Course);
     // CREATE
     async createCourse(data) {
         const course = this.repository.create(data);

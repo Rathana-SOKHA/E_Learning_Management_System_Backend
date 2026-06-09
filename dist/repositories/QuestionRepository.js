@@ -1,9 +1,7 @@
 import { AppDataSource } from "../config/data-source.js";
 import { Question } from "../entities/Question.js";
 export class QuestionRepository {
-    constructor() {
-        this.repository = AppDataSource.getRepository(Question);
-    }
+    repository = AppDataSource.getRepository(Question);
     // CREATE
     async createQuestion(data) {
         const question = this.repository.create(data);

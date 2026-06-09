@@ -1,10 +1,8 @@
 import { CourseRepository } from "../repositories/CourseRepository.js";
 import { UserRepository } from "../repositories/UserRepository.js";
 export class CourseService {
-    constructor() {
-        this.courseRepo = new CourseRepository();
-        this.userRepo = new UserRepository();
-    }
+    courseRepo = new CourseRepository();
+    userRepo = new UserRepository();
     // CREATE
     async createCourse(teacherId, title, description) {
         const teacher = await this.userRepo.findById(teacherId);

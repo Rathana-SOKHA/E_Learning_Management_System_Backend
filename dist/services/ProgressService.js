@@ -2,11 +2,9 @@ import { ProgressRepository } from "../repositories/ProgressRepository.js";
 import { UserRepository } from "../repositories/UserRepository.js";
 import { LessonRepository } from "../repositories/LessonRepository.js";
 export class ProgressService {
-    constructor() {
-        this.progressRepo = new ProgressRepository();
-        this.userRepo = new UserRepository();
-        this.lessonRepo = new LessonRepository();
-    }
+    progressRepo = new ProgressRepository();
+    userRepo = new UserRepository();
+    lessonRepo = new LessonRepository();
     async completeLesson(userId, lessonId) {
         const student = await this.userRepo.findById(userId);
         const lesson = await this.lessonRepo.findById(lessonId);

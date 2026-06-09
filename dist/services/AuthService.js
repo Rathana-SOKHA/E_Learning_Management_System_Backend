@@ -3,10 +3,8 @@ import { RoleRepository } from "../repositories/RoleRepository.js";
 import { hashPassword, comparePassword } from "../utils/hashPassword.js";
 import { generateToken } from "../utils/generateToken.js";
 export class AuthService {
-    constructor() {
-        this.userRepository = new UserRepository();
-        this.roleRepository = new RoleRepository();
-    }
+    userRepository = new UserRepository();
+    roleRepository = new RoleRepository();
     async register(data) {
         const existUser = await this.userRepository.findByEmail(data.email);
         if (existUser) {

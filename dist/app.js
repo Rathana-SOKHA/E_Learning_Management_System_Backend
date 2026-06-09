@@ -15,11 +15,11 @@ import { errorHandler } from "./middlewares/errorMiddleware.js";
 const app = express();
 // app.use(cors());
 app.use(express.json());
-// app.get("/", (req, res) => {
-//   res.json({
-//     message: "E-Learning Management System API is running",
-//   });
-// });
+app.get("/", (req, res) => {
+    res.json({
+        message: "E-Learning Management System API is running",
+    });
+});
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/student", studentRoutes);

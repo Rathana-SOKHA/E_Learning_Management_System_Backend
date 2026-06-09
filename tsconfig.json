@@ -29,7 +29,7 @@
     "esModuleInterop": true,
     "strict": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
+    "emitDecoratorMetadata": false,
     "moduleResolution": "node16",
     "types": ["node"],
     "skipLibCheck": true
